@@ -1,22 +1,39 @@
-import { useState } from "react"
+import { useState } from "react";
 
-function useRecent(){
-    const local = localStorage.getItem("recent") ? localStorage.getItem('recent') : ''
-    const [recent,setRecent] = useState<String | null>(local);
-    const AddRecent = (str: string) =>{
-        setRecent(recent + '($31)'+str)
-        localStorage.setItem("recent",recent + '($31)'+str)
-    }
-    const DelRecent = () =>{
-        let RECENT = recent ? recent.split("($31)") : []
-        RECENT.unshift()
-        setRecent(RECENT.join("($31)"))
-    }
-    return{
-        recent,
-        AddRecent,
-        DelRecent,
-    }
+interface useFormType {
+  searchValue: string;
 }
 
-export default useRecent
+function useRecent() {
+  const local = localStorage.getItem("recent");
+
+  const [recent, setRecent] = useState<string[]>(
+    local ? JSON.parse(local) : []
+  );
+  const AddRecent = (str: string) => {
+    let RECENTIN = [...recent];
+    if (RECENTIN.includes(str)) {
+      let arr = recent.filter((e) => e !== str);
+      arr.unshift(str);
+      setRecent(arr);
+      localStorage.setItem("recent", JSON.stringify(arr));
+    } else if (str !== "") {
+      RECENTIN.push(str);
+      setRecent(RECENTIN);
+      localStorage.setItem("recent", JSON.stringify(RECENTIN));
+    }
+  };
+  const DelRecent = (str: string) => {
+    let RECENT = [...recent];
+    let arr = RECENT.filter(e => e !== str)
+    setRecent(arr);
+    localStorage.setItem("recent", JSON.stringify(arr));
+  };
+  return {
+    recent,
+    AddRecent,
+    DelRecent,
+  };
+}
+
+export default useRecent;
