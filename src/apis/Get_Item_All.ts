@@ -22,4 +22,4 @@ export const GetItemAll = () => {
   return request("https://api.tarkov.dev/graphql", query);
 };
 
-GetItemAll().then(data => console.log(data.items[0]))
+GetItemAll().then((data) => console.log(data.items[0]));
