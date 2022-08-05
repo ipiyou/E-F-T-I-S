@@ -15,13 +15,14 @@ function useRecent({ setSearch }: PropType) {
       arr.unshift(str);
       setRecent(arr);
       localStorage.setItem("recent", JSON.stringify(arr));
-      setSearch(true);
+        setSearch(true);
     } else if (str !== "") {
-      recent.push(str);
+      recent.unshift(str);
       setRecent(recent);
       localStorage.setItem("recent", JSON.stringify(recent));
-      setSearch(true);
+        setSearch(true);
     }
+    setSearch(true)
   };
   const DelRecent = (str: string) => {
     let arr = recent.filter((e) => e !== str);

@@ -5,22 +5,20 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import ReMoveIcon from "../assets/Back";
 import useForm from "../hooks/useForm";
 
-
-interface PropType{
-  setSearch: (Search: boolean) => void
-  Text: {searchValue: string}
-  setText: (Text: {searchValue: string}) => void;
+interface PropType {
+  setSearch: (Search: boolean) => void;
+  Text: { searchValue: string };
+  setText: (Text: { searchValue: string }) => void;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function SearchBox({setSearch,Text,setText,handleChange}: PropType) {
+function SearchBox({ setSearch, Text, setText, handleChange }: PropType) {
   const [Focus, setFocus] = useState<boolean>(false);
-  const { recent, AddRecent, DelRecent } = useRecent({setSearch});
+  const { recent, AddRecent, DelRecent } = useRecent({ setSearch });
 
   const ClickIcon = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     AddRecent(Text.searchValue);
-    setText({ searchValue: "" });
   };
 
   const RecentClick = (data: string) => {
@@ -45,7 +43,7 @@ function SearchBox({setSearch,Text,setText,handleChange}: PropType) {
         {Focus && (
           <_RecentWrapper>
             {recent.map((data) => (
-              <_RecentItemWrapper style={{ padding: "10px 0" }}>
+              <_RecentItemWrapper >
                 <div onClick={() => RecentClick(data)}>{data}</div>
                 <_SearchButton onClick={() => DelRecent(data)}>
                   <ReMoveIcon />
@@ -55,21 +53,22 @@ function SearchBox({setSearch,Text,setText,handleChange}: PropType) {
           </_RecentWrapper>
         )}
       </_Wrapper>
-      {Focus && <BackGroundFocus onClick={() => setFocus(false)}/>}
+      {Focus && <BackGroundFocus onClick={() => setFocus(false)} />}
     </>
   );
 }
 
 const BackGroundFocus = styled.div`
-  width:100%;
+  width: 100%;
   height: 100%;
-  position:absolute;
+  position: absolute;
   z-index: 10;
-`
+`;
 
 const _RecentItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 10px 0;
 `;
 
 const _SearchButton = styled.button`
@@ -100,7 +99,7 @@ const _InputWrapper = styled.form`
 `;
 
 const _Wrapper = styled.div`
-  position:relative;
+  position: relative;
   z-index: 15;
   width: 560px;
   min-height: 56px;
