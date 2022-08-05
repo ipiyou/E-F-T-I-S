@@ -8,6 +8,7 @@ function useForm<T>(value: T) {
   };
   return {
     Text,
+    setText,
     handleChange,
   };
 }
