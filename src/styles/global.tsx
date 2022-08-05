@@ -23,6 +23,11 @@ const style = css`
     outline: 0 !important;
     font-size: 24px;
   }
+  body {
+    ::-webkit-scrollbar {
+    display: none;
+  }
+  }
 `;
 
 const GlobalStyle = () => {
