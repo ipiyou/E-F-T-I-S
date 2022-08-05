@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GetItemAll } from "../apis/Get_Item_All";
+import { GetItemAll } from "../apis/GetItemAll";
 
 interface PropType {
   Search: boolean;
@@ -8,7 +8,7 @@ interface PropType {
 }
 
 interface ApiType {
-  itemes: [
+  items: [
     {
       name: string;
       types: [];
@@ -33,7 +33,7 @@ function useGetItem({ Search, setSearch, Text }: PropType) {
   useEffect(() => {
     if (Search) {
       setSearch(false);
-      GetItemAll(Text.searchValue).then((data) => setSlice(data));
+      GetItemAll(Text.searchValue).then((data) => {setSlice(data)});
     }
   }, [Search]);
   return { slice };
