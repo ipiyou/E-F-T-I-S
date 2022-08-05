@@ -1,9 +1,10 @@
 import { request, gql } from "graphql-request";
 
 export const GetItemAll = (keyword: string) => {
+  
   const query = gql`
     {
-      items(name: "${keyword}") {
+      items ${keyword && `(name: "${keyword}")`} {
         name
         types
         basePrice
