@@ -1,7 +1,7 @@
 function RemoveIcon() {
   return (
     <svg
-        style={{float: 'right',width:'16px'}}
+        style={{width:'16px'}}
       width="22"
       height="22"
       viewBox="0 0 22 22"
