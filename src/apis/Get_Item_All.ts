@@ -1,9 +1,9 @@
 import { request, gql } from "graphql-request";
 
-export const GetItemAll = () => {
+export const GetItemAll = (keyword: string) => {
   const query = gql`
     {
-      items(name: "paca") {
+      items(name: "${keyword}") {
         name
         types
         basePrice
@@ -21,5 +21,3 @@ export const GetItemAll = () => {
 
   return request("https://api.tarkov.dev/graphql", query);
 };
-
-GetItemAll().then((data) => console.log(data.items[0]));
