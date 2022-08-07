@@ -1,16 +1,16 @@
 import styled from "@emotion/styled";
-import useGetItem from "../../hooks/useGetItem";
-import useScroll from "../../hooks/useScroll";
-import Item from "./Item";
+import useGetItem from "../hooks/useGetItem";
+import useScroll from "../hooks/useScroll";
+import Item from "../components/itemList/Item";
 
 interface PropType{
   Search: boolean;
-  setSearch: (Search: boolean) => void;
+  CompleteSearch: () => void
   Text: {searchValue: string}
 }
 
-function  ItemBox({Search,setSearch,Text}: PropType) {
-  const {slice} = useGetItem({Search,setSearch,Text})
+function  SearchItem({Search,CompleteSearch,Text}: PropType) {
+  const {slice} = useGetItem({Search,CompleteSearch,Text})
   const [Scroll,ref] = useScroll()
   return <_Wrapper >
     {Search ? <img src="../../assets/tarkov.gif"/> : slice ? slice.items.map((item,idx) => <Item key={idx} item={item}/>) : "검색 결과가 없습니다"}
@@ -23,4 +23,4 @@ const _Wrapper = styled.div`
 `
 
 
-export default ItemBox;
+export default SearchItem;

@@ -1,26 +1,20 @@
 import { useState } from "react";
 
-interface PropType {
-  setSearch: (Search: boolean) => void;
-}
-
-function useRecent({ setSearch }: PropType) {
+function useSearch() {
   const local = localStorage.getItem("recent");
   const [recent, setRecent] = useState<string[]>(
     local ? JSON.parse(local) : []
   );
+  const [Search, setSearch] = useState<boolean>(true);
   const AddRecent = (str: string) => {
+    let arr = recent
     if (recent.includes(str)) {
-      let arr = recent.filter((e) => e !== str);
+      arr = arr.filter((e) => e !== str);
+    }
+    if (str !== "") {
       arr.unshift(str);
       setRecent(arr);
       localStorage.setItem("recent", JSON.stringify(arr));
-        setSearch(true);
-    } else if (str !== "") {
-      recent.unshift(str);
-      setRecent(recent);
-      localStorage.setItem("recent", JSON.stringify(recent));
-        setSearch(true);
     }
     setSearch(true)
   };
@@ -29,12 +23,17 @@ function useRecent({ setSearch }: PropType) {
     setRecent(arr);
     localStorage.setItem("recent", JSON.stringify(arr));
   };
+  const CompleteSearch = () =>{
+    setSearch(false);
+  }
 
   return {
     recent,
     AddRecent,
     DelRecent,
+    Search,
+    CompleteSearch
   };
 }
 
-export default useRecent;
+export default useSearch;

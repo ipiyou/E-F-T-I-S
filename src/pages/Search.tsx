@@ -1,31 +1,25 @@
 import styled from "@emotion/styled";
 import {
-  ChangeEvent,
-  Dispatch,
   FormEvent,
-  SetStateAction,
   useState,
 } from "react";
-import { useFormType } from "../App";
+import SearchItem from "./SearchItem";
 import InputForm from "../components/search/InputForm";
 import MapRecent from "../components/search/MapRecent";
-import useRecent from "../hooks/useRecent";
+import useForm from "../hooks/useForm";
+import useSearch from "../hooks/useSearch";
 
-interface PropType {
-  setSearch: (Search: boolean) => void;
-  SearchKeyword: useFormType;
-  setSearchKeyword: Dispatch<SetStateAction<useFormType>>;
-  handleSearchKeyword: (e: ChangeEvent<HTMLInputElement>) => void;
-}
+export interface useFormType {
+    searchValue: string;
+  }  
 
-function SearchElement({
-  setSearch,
-  SearchKeyword,
-  setSearchKeyword,
-  handleSearchKeyword,
-}: PropType) {
+function SearchElement() {
   const [Focus, setFocus] = useState<boolean>(false);
-  const { recent, AddRecent, DelRecent } = useRecent({ setSearch });
+  const { recent, AddRecent, DelRecent,Search,CompleteSearch} = useSearch();
+  const [SearchKeyword, setSearchKeyword, handleSearchKeyword] =
+    useForm<useFormType>({
+      searchValue: "",
+    });
 
   const ClickIcon = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,6 +31,7 @@ function SearchElement({
     AddRecent(data);
   };
   return (
+    <>
     <_Wrapper>
       <InputForm
         ClickIcon={ClickIcon}
@@ -52,6 +47,9 @@ function SearchElement({
       />
       {Focus && <BackGroundFocus onClick={() => setFocus(false)} />}
     </_Wrapper>
+    <SearchItem Search={Search} CompleteSearch={CompleteSearch} Text={SearchKeyword}/>
+    </>
+    
   );
 }
 
