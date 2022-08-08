@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 interface PropType {
   item: {
@@ -18,28 +18,40 @@ interface PropType {
       { price: number; source: "fleaMarket" }
     ];
   };
+  setLastIntersectingImage?: Dispatch<SetStateAction<HTMLDivElement | null>>;
 }
 
-const Item = React.memo(({item}: PropType)  => {
-    const ShotBest = Math.max(...item.sellFor.map(data => data.price ? data.price : 0))
-    const Kan = (value: number) =>{
-        return Math.floor(value / (item.height * item.width)) + "₽" + item.height + item.width
-    }
+const Item = React.memo(({ item, setLastIntersectingImage }: PropType) => {
+  const ShotBest = Math.max(
+    ...item.sellFor.map((data) => (data.price ? data.price : 0))
+  );
+  const Kan = (value: number) => {
     return (
-    <_ItemWrapper>
-        <_ItemDisplay>
-            <_ItemImg src={item.iconLink}/>
-            <span>{item.name}</span>
-        </_ItemDisplay>
+      Math.floor(value / (item.height * item.width)) +
+      "₽" +
+      item.height +
+      item.width
+    );
+  };
+  return (
+    <_ItemWrapper ref={setLastIntersectingImage && setLastIntersectingImage}>
+      <_ItemDisplay>
+        <_ItemImg src={item.iconLink} />
+        <span>{item.name}</span>
+      </_ItemDisplay>
       <_ItemValueWrapper>
-        <_ItemValue>{item.basePrice > ShotBest ? Kan(item.basePrice) : Kan(ShotBest)}</_ItemValue>
-        <_ItemValue>{ShotBest !== -Infinity ? ShotBest + "₽" : 'X'}</_ItemValue>
+        <_ItemValue>
+          {item.basePrice > ShotBest ? Kan(item.basePrice) : Kan(ShotBest)}
+        </_ItemValue>
+        <_ItemValue>{ShotBest !== -Infinity ? ShotBest + "₽" : "X"}</_ItemValue>
         <_ItemValue>{item.basePrice + "₽"}</_ItemValue>
-        <_ItemValue>{Math.floor(item.basePrice * item.changeLast48hPercent / 100) + "₽"}</_ItemValue>
+        <_ItemValue>
+          {Math.floor((item.basePrice * item.changeLast48hPercent) / 100) + "₽"}
+        </_ItemValue>
       </_ItemValueWrapper>
     </_ItemWrapper>
   );
-})
+});
 
 const _ItemWrapper = styled.div`
   height: 68px;
@@ -52,17 +64,14 @@ const _ItemImg = styled.img`
   height: 48px;
 `;
 
-const _ItemDisplay = styled.div`
-    
-`
+const _ItemDisplay = styled.div``;
 
 const _ItemValueWrapper = styled.div`
-    display:flex;
-
-`
+  display: flex;
+`;
 
 const _ItemValue = styled.div`
-    padding: 0 10px;
-`
+  padding: 0 10px;
+`;
 
 export default Item;

@@ -4,14 +4,30 @@ import { ApiType } from "../apis/GetItemAll";
 
 function useGetItem() {
   const [slice, setSlice] = useState<ApiType>();
+  const [cureentItem, setItem] = useState<ApiType>();
   const ReturnSearchItem = (
     str: string,
     Searching: (onoff: boolean) => void
   ) => {
-    GetItemAll(str).then((data) => setSlice(data));
-    Searching(false);
+    GetItemAll(str).then((data: ApiType) => {
+      let sliceData = { items: data.items.splice(0, 20) };
+      setSlice(sliceData);
+      setItem(data);
+      Searching(false);
+    });
   };
-  return { slice, ReturnSearchItem };
+  const BottomTouch = (sliceCount: number) => {
+    if (
+      slice &&
+      cureentItem &&
+      slice.items !== [] &&
+      cureentItem.items !== []
+    ) {
+      let NextItem = cureentItem.items.splice(-sliceCount);
+      setSlice({ items: [...slice.items, ...NextItem] });
+    }
+  };
+  return { slice, ReturnSearchItem, BottomTouch };
 }
 
 export default useGetItem;

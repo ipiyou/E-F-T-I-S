@@ -15,7 +15,7 @@ function SearchElement() {
   const [Focus, setFocus] = useState<boolean>(false);
   const { recent, AddRecent, DelRecent } = useSearch();
   const [Search, setSearch] = useState<boolean>(true);
-  const { slice, ReturnSearchItem } = useGetItem();
+  const { slice, ReturnSearchItem, BottomTouch } = useGetItem();
   const [SearchKeyword, setSearchKeyword, handleSearchKeyword] =
     useForm<useFormType>({
       searchValue: "",
@@ -37,7 +37,7 @@ function SearchElement() {
 
   useEffect(() => {
     ReturnSearchItem(SearchKeyword.searchValue, Searching);
-    setFocus(false)
+    setFocus(false);
   }, [Search]);
   return (
     <>
@@ -56,7 +56,11 @@ function SearchElement() {
         />
         {Focus && <BackGroundFocus onClick={() => setFocus(false)} />}
       </_Wrapper>
-      {Search ? <div>검색 중...</div> : <SearchItem slice={slice} />}
+      {Search ? (
+        <div>검색 중...</div>
+      ) : (
+        <SearchItem slice={slice} BottomTouch={BottomTouch} />
+      )}
     </>
   );
 }
