@@ -6,11 +6,7 @@ function useForm<T>(value: T) {
     const { name, value } = e.target;
     setText({ ...Text, [name]: value });
   };
-  return {
-    Text,
-    setText,
-    handleChange,
-  };
+  return [Text, setText, handleChange] as const;
 }
 
 export default useForm;
