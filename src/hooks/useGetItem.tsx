@@ -1,42 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GetItemAll } from "../apis/GetItemAll";
+import { ApiType } from "../apis/GetItemAll";
 
-interface PropType {
-  Search: boolean;
-  setSearch: (Search: boolean) => void;
-  Text: { searchValue: string };
-}
-
-interface ApiType {
-  items: [
-    {
-      name: string;
-      types: [];
-      basePrice: number;
-      width: number;
-      height: number;
-      changeLast48hPercent: number;
-      iconLink: string;
-      sellFor: [
-        { price: number; source: "fence" },
-        { price: number; source: "skier" },
-        { price: number; source: "peacekeeper" },
-        { price: number; source: "ragman" },
-        { price: number; source: "fleaMarket" }
-      ];
-    }
-  ];
-}
-
-function useGetItem({ Search, setSearch, Text }: PropType) {
+function useGetItem() {
   const [slice, setSlice] = useState<ApiType>();
-  useEffect(() => {
-    if (Search) {
-      setSearch(false);
-      GetItemAll(Text.searchValue).then((data) => {setSlice(data)});
-    }
-  }, [Search]);
-  return { slice };
+  const ReturnSearchItem = (
+    str: string,
+    Searching: (onoff: boolean) => void
+  ) => {
+    GetItemAll(str).then((data) => setSlice(data));
+    Searching(false);
+  };
+  return { slice, ReturnSearchItem };
 }
 
 export default useGetItem;

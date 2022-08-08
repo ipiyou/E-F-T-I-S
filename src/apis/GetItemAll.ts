@@ -1,7 +1,12 @@
 import { request, gql } from "graphql-request";
 
+export interface ApiType {
+  items: [
+    
+  ];
+}
+
 export const GetItemAll = (keyword: string) => {
-  
   const query = gql`
     {
       items ${keyword && `(name: "${keyword}")`} {

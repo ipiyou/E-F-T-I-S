@@ -2,18 +2,21 @@ import styled from "@emotion/styled";
 import useGetItem from "../hooks/useGetItem";
 import useScroll from "../hooks/useScroll";
 import Item from "../components/itemList/Item";
+import { ApiType } from "../apis/GetItemAll";
 
 interface PropType{
-  Search: boolean;
-  CompleteSearch: () => void
-  Text: {searchValue: string}
+  slice: ApiType | undefined;
 }
 
-function  SearchItem({Search,CompleteSearch,Text}: PropType) {
-  const {slice} = useGetItem({Search,CompleteSearch,Text})
+function  SearchItem({slice}: PropType) {
   const [Scroll,ref] = useScroll()
+  const Return = () =>{
+    if(slice){
+      return slice.items.length !== 0 ? slice.items.map((item,idx) => <Item key={idx} item={item}/>) : "검색 결과가 없습니다"
+    }
+  }
   return <_Wrapper >
-    {Search ? <img src="../../assets/tarkov.gif"/> : slice ? slice.items.map((item,idx) => <Item key={idx} item={item}/>) : "검색 결과가 없습니다"}
+    {Return()}
   </_Wrapper>;
 }
 
