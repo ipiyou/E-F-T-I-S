@@ -54,10 +54,11 @@ function SearchElement() {
           RecentClick={RecentClick}
           DelRecent={DelRecent}
         />
-        {Focus && <BackGroundFocus onClick={() => setFocus(false)} />}
+        
       </_Wrapper>
+      {Focus && <BackGroundFocus onClick={() => setFocus(false)} />}
       {Search ? (
-        <div>검색 중...</div>
+        <div style={{marginTop: "100px"}}>검색 중...</div>
       ) : (
         <SearchItem slice={slice} BottomTouch={BottomTouch} />
       )}
@@ -66,7 +67,8 @@ function SearchElement() {
 }
 
 const _Wrapper = styled.div`
-  position: relative;
+  position: absolute;
+  top: 15%;
   z-index: 15;
   width: 560px;
   min-height: 56px;
