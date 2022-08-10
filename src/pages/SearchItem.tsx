@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import useScroll from "../hooks/useScroll";
-import Item from "../components/itemList/Item";
+import Item from "../components/ItemList/Item";
 import { ApiType } from "../apis/GetItemAll";
 
 interface PropType {
