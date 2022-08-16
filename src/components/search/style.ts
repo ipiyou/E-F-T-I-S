@@ -21,14 +21,12 @@ export const _SearchButton = styled.button`
   align-items: center;
 `;
 
-
 export const _SearchInput = styled.input`
   width: 100%;
   height: 50px;
   outline: 0;
-  border:0;
-  font-size:24px;
-
+  border: 0;
+  font-size: 24px;
 `;
 
 export const _InputWrapper = styled.form`
