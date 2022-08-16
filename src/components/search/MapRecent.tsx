@@ -5,10 +5,10 @@ interface PropType {
   Focus: boolean;
   recent: string[];
   RecentClick: (data: string) => void;
-  DelRecent: (str: string) => void;
+  SettingRecent: (payload: string) => void;
 }
 
-function MapRecent({ Focus, recent, RecentClick, DelRecent }: PropType) {
+function MapRecent({ Focus, recent, RecentClick, SettingRecent }: PropType) {
   return (
     <div>
       {Focus && (
@@ -16,7 +16,7 @@ function MapRecent({ Focus, recent, RecentClick, DelRecent }: PropType) {
           {recent.map((data) => (
             <S._RecentItemWrapper>
               <div onClick={() => RecentClick(data)}>{data}</div>
-              <S._SearchButton onClick={() => DelRecent(data)}>
+              <S._SearchButton onClick={() => SettingRecent(data)}>
                 <ReMoveIcon />
               </S._SearchButton>
             </S._RecentItemWrapper>

@@ -2,12 +2,12 @@ import styled from "@emotion/styled";
 
 interface PropType {
   Focus: boolean;
-  CloseBackground: () => void;
+  SettingFocus: () => void;
 }
 
-function SearchFocus({ Focus, CloseBackground }: PropType) {
+function SearchFocus({ Focus, SettingFocus }: PropType) {
   if (Focus) {
-    return <BackGroundFocus onClick={CloseBackground} />;
+    return <BackGroundFocus onClick={SettingFocus} />;
   }
   return null;
 }

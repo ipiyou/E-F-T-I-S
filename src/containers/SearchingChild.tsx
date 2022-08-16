@@ -1,45 +1,48 @@
 import styled from "@emotion/styled";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import InputForm from "../components/search/InputForm";
 import MapRecent from "../components/search/MapRecent";
 import useForm from "../hooks/useForm";
-import useSearch from "../hooks/useSearch";
 import useGetItem from "../hooks/useGetItem";
-import SearchItem from "../components/ItemList/SearchItem";
 import SearchFocus from "../components/search/SearchFocus";
 import SearchingNow from "../components/search/SearchingNow";
+import { useAppDispatch, useAppSelector } from "../module";
+import {
+  addRecent,
+  DelRecent,
+  SetFocus,
+  SetSearch,
+} from "../module/recentReducer";
 
 export interface useFormType {
   searchValue: string;
 }
 
 function SearchingChild() {
-  const [Focus, setFocus] = useState<boolean>(false);
-  const { recent, AddRecent, DelRecent } = useSearch();
-  const [Search, setSearch] = useState<boolean>(true);
+  const { Focus, recent, Search } = useAppSelector((state) => state.recent);
+  const dispatch = useAppDispatch();
+
   const { slice, ReturnSearchItem, BottomTouch } = useGetItem();
   const [SearchKeyword, setSearchKeyword, handleSearchKeyword] =
     useForm<useFormType>({
       searchValue: "",
     });
 
-  const Searching = (onoff: boolean) => {
-    setSearch(onoff);
-  };
-
   const ClickIcon = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    AddRecent(SearchKeyword.searchValue, Searching);
+    dispatch(addRecent(SearchKeyword.searchValue));
   };
 
   const RecentClick = (data: string) => {
     setSearchKeyword({ searchValue: data });
-    AddRecent(data, Searching);
+    dispatch(addRecent(data));
   };
 
   useEffect(() => {
-    ReturnSearchItem(SearchKeyword.searchValue, Searching);
-    setFocus(false);
+    ReturnSearchItem(SearchKeyword.searchValue, (onoff) =>
+      dispatch(SetSearch(onoff))
+    );
+    dispatch(SetFocus(false));
   }, [Search]);
   return (
     <>
@@ -48,16 +51,19 @@ function SearchingChild() {
           ClickIcon={ClickIcon}
           SearchKeyword={SearchKeyword}
           handleSearchKeyword={handleSearchKeyword}
-          setFocus={setFocus}
+          SettingFocus={() => dispatch(SetFocus(true))}
         />
         <MapRecent
           Focus={Focus}
           recent={recent}
           RecentClick={RecentClick}
-          DelRecent={DelRecent}
+          SettingRecent={(payload) => dispatch(DelRecent(payload))}
         />
       </_Wrapper>
-      <SearchFocus Focus={Focus} CloseBackground={() => setFocus(false)} />
+      <SearchFocus
+        Focus={Focus}
+        SettingFocus={() => dispatch(SetFocus(false))}
+      />
       <SearchingNow slice={slice} BottomTouch={BottomTouch} Search={Search} />
     </>
   );
