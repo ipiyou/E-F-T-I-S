@@ -28,16 +28,6 @@ function SearchingChild() {
       searchValue: "",
     });
 
-  const ClickIcon = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(addRecent(SearchKeyword.searchValue));
-  };
-
-  const RecentClick = (data: string) => {
-    setSearchKeyword({ searchValue: data });
-    dispatch(addRecent(data));
-  };
-
   useEffect(() => {
     ReturnSearchItem(SearchKeyword.searchValue, (onoff) =>
       dispatch(SetSearch(onoff))
@@ -48,7 +38,7 @@ function SearchingChild() {
     <>
       <_Wrapper>
         <InputForm
-          ClickIcon={ClickIcon}
+          ClickIcon={() => dispatch(addRecent(SearchKeyword.searchValue))}
           SearchKeyword={SearchKeyword}
           handleSearchKeyword={handleSearchKeyword}
           SettingFocus={() => dispatch(SetFocus(true))}
@@ -56,7 +46,8 @@ function SearchingChild() {
         <MapRecent
           Focus={Focus}
           recent={recent}
-          RecentClick={RecentClick}
+          setSearchKeyword={setSearchKeyword}
+          RecentClick={(data) => dispatch(addRecent(data))}
           SettingRecent={(payload) => dispatch(DelRecent(payload))}
         />
       </_Wrapper>

@@ -3,7 +3,7 @@ import SearchIcon from "../../assets/Search";
 import * as S from "./style";
 
 interface PropType {
-  ClickIcon: (e: FormEvent<HTMLFormElement>) => void;
+  ClickIcon: () => void;
   SearchKeyword: { searchValue: string };
   handleSearchKeyword: (e: ChangeEvent<HTMLInputElement>) => void;
   SettingFocus: () => void;
@@ -17,7 +17,12 @@ function InputForm({
 }: PropType) {
   return (
     <>
-      <S._InputWrapper onSubmit={ClickIcon}>
+      <S._InputWrapper
+        onSubmit={(e) => {
+          e.preventDefault();
+          ClickIcon();
+        }}
+      >
         <S._SearchInput
           value={SearchKeyword.searchValue}
           name="searchValue"
