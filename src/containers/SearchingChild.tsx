@@ -1,27 +1,21 @@
 import styled from "@emotion/styled";
-import { FormEvent, useEffect } from "react";
+import { useEffect } from "react";
 import InputForm from "../components/search/InputForm";
 import MapRecent from "../components/search/MapRecent";
 import useForm from "../hooks/useForm";
-import useGetItem from "../hooks/useGetItem";
 import SearchFocus from "../components/search/SearchFocus";
 import SearchingNow from "../components/search/SearchingNow";
 import { useAppDispatch, useAppSelector } from "../module";
-import {
-  addRecent,
-  DelRecent,
-  SetFocus,
-  SetSearch,
-} from "../module/recentReducer";
+import { addRecent, DelRecent, SetFocus } from "../module/recentReducer";
 import { shallowEqual } from "react-redux";
-import { GetItemThunk, SliceNextItem } from "../module/ItemListSlice";
+import { GetItemThunk } from "../module/ItemListSlice";
 
 export interface useFormType {
   searchValue: string;
 }
 
 function SearchingChild() {
-  const { Focus, recent, Search } = useAppSelector(
+  const { Focus, recent } = useAppSelector(
     (state) => state.recent,
     shallowEqual
   );
@@ -31,7 +25,6 @@ function SearchingChild() {
   );
   const dispatch = useAppDispatch();
 
-  const { slice, ReturnSearchItem, BottomTouch } = useGetItem();
   const [SearchKeyword, setSearchKeyword, handleSearchKeyword] =
     useForm<useFormType>({
       searchValue: "",
@@ -68,7 +61,7 @@ function SearchingChild() {
         Focus={Focus}
         SettingFocus={() => dispatch(SetFocus(false))}
       />
-      <SearchingNow cureentItems={cureentItems} Search={Search} />
+      <SearchingNow cureentItems={cureentItems} />
     </>
   );
 }

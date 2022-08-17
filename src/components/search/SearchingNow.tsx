@@ -3,11 +3,10 @@ import { useAppSelector } from "../../module";
 import SearchItem from "../ItemList/SearchItem";
 
 interface PropType {
-  Search: boolean;
   cureentItems: ApiType[] | undefined;
 }
 
-function SearchingNow({ Search, cureentItems }: PropType) {
+function SearchingNow({ cureentItems }: PropType) {
   const { loading, error } = useAppSelector((state) => state.item);
   return loading ? (
     <div style={{ marginTop: "100px" }}>{error ? "오류." : "검색 중..."}</div>

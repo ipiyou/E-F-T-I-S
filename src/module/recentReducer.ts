@@ -5,7 +5,6 @@ const local = localStorage.getItem("recent");
 interface RecentState {
   recent: string[];
   Focus: boolean;
-  Search: boolean;
 }
 
 const initialState = {
@@ -28,7 +27,6 @@ export const recentSlice = createSlice({
         state.recent.unshift(action.payload);
         localStorage.setItem("recent", JSON.stringify(state.recent));
       }
-      state.Search = true;
     },
     DelRecent(state, action: PayloadAction<string>) {
       const recentList = state.recent;
@@ -40,13 +38,9 @@ export const recentSlice = createSlice({
     SetFocus(state, action: PayloadAction<boolean>) {
       state.Focus = action.payload;
     },
-    SetSearch(state, action: PayloadAction<boolean>) {
-      state.Search = action.payload;
-    },
   },
 });
 
-export const { addRecent, DelRecent, SetFocus, SetSearch } =
-  recentSlice.actions;
+export const { addRecent, DelRecent, SetFocus } = recentSlice.actions;
 
 export default recentSlice;
