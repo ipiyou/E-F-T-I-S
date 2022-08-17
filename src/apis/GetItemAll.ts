@@ -1,24 +1,24 @@
 import { request, gql } from "graphql-request";
 
-export interface ApiType {
-  items:
-    | {
-        name: string;
-        types: [];
-        basePrice: number;
-        width: number;
-        height: number;
-        changeLast48hPercent: number;
-        iconLink: string;
-        sellFor: [
-          { price: number; source: "fence" },
-          { price: number; source: "skier" },
-          { price: number; source: "peacekeeper" },
-          { price: number; source: "ragman" },
-          { price: number; source: "fleaMarket" }
-        ];
-      }[]
-    | [];
+export type ApiType ={
+    name: string;
+    types: [];
+    basePrice: number;
+    width: number;
+    height: number;
+    changeLast48hPercent: number;
+    iconLink: string;
+    sellFor: [
+      { price: number; source: "fence" },
+      { price: number; source: "skier" },
+      { price: number; source: "peacekeeper" },
+      { price: number; source: "ragman" },
+      { price: number; source: "fleaMarket" }
+    ];
+}
+
+export interface ApiInterface {
+  items: ApiType[]
 }
 
 export const GetItemAll = (keyword: string) => {

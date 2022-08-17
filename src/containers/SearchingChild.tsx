@@ -13,13 +13,22 @@ import {
   SetFocus,
   SetSearch,
 } from "../module/recentReducer";
+import { shallowEqual } from "react-redux";
+import { GetItemThunk, SliceNextItem } from "../module/ItemListSlice";
 
 export interface useFormType {
   searchValue: string;
 }
 
 function SearchingChild() {
-  const { Focus, recent, Search } = useAppSelector((state) => state.recent);
+  const { Focus, recent, Search } = useAppSelector(
+    (state) => state.recent,
+    shallowEqual
+  );
+  const cureentItems = useAppSelector(
+    (state) => state.item.cureentItems,
+    shallowEqual
+  );
   const dispatch = useAppDispatch();
 
   const { slice, ReturnSearchItem, BottomTouch } = useGetItem();
@@ -28,17 +37,21 @@ function SearchingChild() {
       searchValue: "",
     });
 
-  useEffect(() => {
-    ReturnSearchItem(SearchKeyword.searchValue, (onoff) =>
-      dispatch(SetSearch(onoff))
-    );
+  const SearchAdd = (keyWord: string) => {
+    dispatch(GetItemThunk(keyWord));
+    dispatch(addRecent(keyWord));
     dispatch(SetFocus(false));
-  }, [Search]);
+  };
+
+  useEffect(() => {
+    dispatch(GetItemThunk(""));
+  }, []);
+
   return (
     <>
       <_Wrapper>
         <InputForm
-          ClickIcon={() => dispatch(addRecent(SearchKeyword.searchValue))}
+          onSearch={(keyWord) => SearchAdd(keyWord)}
           SearchKeyword={SearchKeyword}
           handleSearchKeyword={handleSearchKeyword}
           SettingFocus={() => dispatch(SetFocus(true))}
@@ -47,7 +60,7 @@ function SearchingChild() {
           Focus={Focus}
           recent={recent}
           setSearchKeyword={setSearchKeyword}
-          RecentClick={(data) => dispatch(addRecent(data))}
+          onSearch={(keyWord) => SearchAdd(keyWord)}
           SettingRecent={(payload) => dispatch(DelRecent(payload))}
         />
       </_Wrapper>
@@ -55,7 +68,7 @@ function SearchingChild() {
         Focus={Focus}
         SettingFocus={() => dispatch(SetFocus(false))}
       />
-      <SearchingNow slice={slice} BottomTouch={BottomTouch} Search={Search} />
+      <SearchingNow cureentItems={cureentItems} Search={Search} />
     </>
   );
 }

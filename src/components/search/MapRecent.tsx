@@ -5,7 +5,7 @@ import * as S from "./style";
 interface PropType {
   Focus: boolean;
   recent: string[];
-  RecentClick: (data: string) => void;
+  onSearch: (keyWord: string) => void;
   SettingRecent: (payload: string) => void;
   setSearchKeyword: Dispatch<SetStateAction<{ searchValue: string }>>;
 }
@@ -13,21 +13,21 @@ interface PropType {
 function MapRecent({
   Focus,
   recent,
-  RecentClick,
+  onSearch,
   SettingRecent,
   setSearchKeyword,
 }: PropType) {
   const RecentItemClick = (data: string) => {
     setSearchKeyword({ searchValue: data });
-    RecentClick(data);
+    onSearch(data);
   };
 
   return (
     <div>
       {Focus && (
         <S._RecentWrapper>
-          {recent.map((data) => (
-            <S._RecentItemWrapper>
+          {recent.map((data,idx) => (
+            <S._RecentItemWrapper key={idx}>
               <div onClick={() => RecentItemClick(data)}>{data}</div>
               <S._SearchButton onClick={() => SettingRecent(data)}>
                 <ReMoveIcon />

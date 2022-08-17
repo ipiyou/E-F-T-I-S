@@ -11,6 +11,7 @@ interface RecentState {
 const initialState = {
   recent: local ? JSON.parse(local) : [],
   Focus: false,
+  Search: false,
 } as RecentState;
 
 export const recentSlice = createSlice({

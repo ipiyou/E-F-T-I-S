@@ -1,17 +1,18 @@
 import { ApiType } from "../../apis/GetItemAll";
+import { useAppSelector } from "../../module";
 import SearchItem from "../ItemList/SearchItem";
 
 interface PropType {
   Search: boolean;
-  BottomTouch: (sliceCount: number) => void;
-  slice: ApiType | undefined;
+  cureentItems: ApiType[] | undefined;
 }
 
-function SearchingNow({ Search, BottomTouch, slice }: PropType) {
-  return Search ? (
-    <div style={{ marginTop: "100px" }}>검색 중...</div>
+function SearchingNow({ Search, cureentItems }: PropType) {
+  const { loading, error } = useAppSelector((state) => state.item);
+  return loading ? (
+    <div style={{ marginTop: "100px" }}>{error ? "오류." : "검색 중..."}</div>
   ) : (
-    <SearchItem slice={slice} BottomTouch={BottomTouch} />
+    <SearchItem cureentItems={cureentItems} />
   );
 }
 

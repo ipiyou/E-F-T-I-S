@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { GetItemAll } from "../apis/GetItemAll";
+import { ApiInterface, GetItemAll } from "../apis/GetItemAll";
 import { ApiType } from "../apis/GetItemAll";
 
 function useGetItem() {
-  const [slice, setSlice] = useState<ApiType>();
-  const [cureentItem, setItem] = useState<ApiType>();
+  const [slice, setSlice] = useState<ApiInterface>();
+  const [cureentItem, setItem] = useState<ApiInterface>();
   const ReturnSearchItem = (
     str: string,
     Searching: (onoff: boolean) => void
   ) => {
-    GetItemAll(str).then((data: ApiType) => {
+    GetItemAll(str).then((data: ApiInterface) => {
       let sliceData = { items: data.items.splice(0, 20) };
       setSlice(sliceData);
       setItem(data);

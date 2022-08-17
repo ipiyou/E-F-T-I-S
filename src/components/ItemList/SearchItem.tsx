@@ -4,15 +4,14 @@ import ReturnItemList from "../../containers/ReturnItemList";
 import ExamName from "./ExamName";
 
 interface PropType {
-  slice: ApiType | undefined;
-  BottomTouch: (sliceCount: number) => void;
+  cureentItems: ApiType[] | undefined;
 }
 
-function SearchItem({ slice, BottomTouch }: PropType) {
+function SearchItem({ cureentItems }: PropType) {
   return (
     <_Wrapper>
-      {slice?.items.length !== 0 && <ExamName />}
-      <ReturnItemList slice={slice} BottomTouch={BottomTouch} />
+      {cureentItems?.length !== 0 && <ExamName />}
+      <ReturnItemList cureentItems={cureentItems} />
     </_Wrapper>
   );
 }

@@ -3,17 +3,16 @@ import Item from "../components/ItemList/Item";
 import useScroll from "../hooks/useScroll";
 
 interface PropType {
-  slice: ApiType | undefined;
-  BottomTouch: (sliceCount: number) => void;
+  cureentItems: ApiType[] | undefined;
 }
 
-function ReturnItemList({ slice, BottomTouch }: PropType) {
-  const setLastIntersectingImage = useScroll(BottomTouch);
+function ReturnItemList({ cureentItems }: PropType) {
+  const setLastIntersectingImage = useScroll();
   return (
     <>
-      {slice && slice.items.length !== 0
-        ? slice.items.map((item, idx) => {
-            if (idx === slice.items.length - 1) {
+      {cureentItems && cureentItems.length !== 0
+        ? cureentItems.map((item, idx) => {
+            if (idx === cureentItems.length - 1) {
               return (
                 <Item
                   key={idx}

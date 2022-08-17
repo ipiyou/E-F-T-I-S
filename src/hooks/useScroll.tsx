@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { SliceNextItem } from "../module/ItemListSlice";
 
-function useScroll(BottomTouch: (sliceCount: number) => void) {
+function useScroll() {
   const [lastIntersectingImage, setLastIntersectingImage] =
     useState<HTMLDivElement | null>(null);
+  const dispatch = useDispatch();
 
   const onIntersect: IntersectionObserverCallback = (entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        BottomTouch(20);
+        dispatch(SliceNextItem(20));
         observer.unobserve(entry.target);
       }
     });
