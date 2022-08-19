@@ -36,6 +36,13 @@ function SearchingChild() {
     dispatch(SetFocus(false));
   };
 
+  const handleOnFocus = () => dispatch(SetFocus(true));
+  const handleOffFocus = () => dispatch(SetFocus(false));
+
+  const handleSearchAdd = (keyword: string) => SearchAdd(keyword);
+
+  const handleDelRecent = (payload: string) => dispatch(DelRecent(payload));
+
   useEffect(() => {
     dispatch(GetItemThunk(""));
   }, []);
@@ -44,23 +51,20 @@ function SearchingChild() {
     <>
       <_Wrapper>
         <InputForm
-          onSearch={(keyWord) => SearchAdd(keyWord)}
+          onSearch={handleSearchAdd}
           SearchKeyword={SearchKeyword}
           handleSearchKeyword={handleSearchKeyword}
-          SettingFocus={() => dispatch(SetFocus(true))}
+          SettingFocus={handleOnFocus}
         />
         <MapRecent
           Focus={Focus}
           recent={recent}
           setSearchKeyword={setSearchKeyword}
-          onSearch={(keyWord) => SearchAdd(keyWord)}
-          SettingRecent={(payload) => dispatch(DelRecent(payload))}
+          onSearch={handleSearchAdd}
+          SettingRecent={handleDelRecent}
         />
       </_Wrapper>
-      <SearchFocus
-        Focus={Focus}
-        SettingFocus={() => dispatch(SetFocus(false))}
-      />
+      <SearchFocus Focus={Focus} SettingFocus={handleOffFocus} />
       <SearchingNow cureentItems={cureentItems} />
     </>
   );
